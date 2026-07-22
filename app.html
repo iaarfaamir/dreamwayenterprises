@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dreamway Enterprises (PVT) Ltd - Lease & Loan Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            body { background: #ffffff !important; color: #000000 !important; }
+            .print-card { border: 1px solid #ccc !important; box-shadow: none !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen font-sans">
+    <header class="bg-slate-800 border-b border-slate-700 p-4 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-blue-600 p-2 rounded-lg text-white font-bold text-xl">DWE</div>
+                <div>
+                    <h1 class="text-xl font-bold text-white tracking-wide">Dreamway Enterprises (PVT) Ltd</h1>
+                    <p class="text-xs text-slate-400">Financial Lease & Loan Management System</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 no-print">
+                <button onclick="window.print()" class="bg-slate-700 hover:bg-slate-600 text-slate-200 px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                    Print Quote / Schedule
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-4 space-y-6 no-print">
+            <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 shadow-xl space-y-4">
+                <h2 class="text-lg font-semibold text-blue-400 border-b border-slate-700 pb-2 flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Financing Inputs
+                </h2>
+
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Total Financing Amount (PKR)</label>
+                    <input type="number" id="totalAmount" value="2500000" step="50000" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Advance Rate (%)</label>
+                        <input type="number" id="advanceRate" value="25" step="1" min="0" max="100" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Advance Amount</label>
+                        <input type="text" id="advanceAmountDisplay" readonly class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-400 font-mono text-sm">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Annual Markup Rate (%)</label>
+                        <input type="number" id="markupRate" value="10" step="0.5" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Term (Years)</label>
+                        <input type="number" id="loanYears" value="5" min="1" max="30" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Payment Frequency</label>
+                    <select id="frequency" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+                        <option value="12" selected>Monthly (12/yr)</option>
+                        <option value="6">Bi-Monthly (6/yr)</option>
+                        <option value="4">Quarterly (4/yr)</option>
+                        <option value="2">Semi-Annual (2/yr)</option>
+                        <option value="1">Annual (1/yr)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">First Payment Date</label>
+                    <input type="date" id="firstPaymentDate" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+                </div>
+            </div>
+
+            <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 shadow-xl space-y-4">
+                <h2 class="text-lg font-semibold text-emerald-400 border-b border-slate-700 pb-2 flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    CRO & Applicant Details
+                </h2>
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">CRO Officer Name</label>
+                    <input type="text" id="croName" placeholder="e.g. Tariq Mehmood" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Phone Number</label>
+                    <input type="text" id="croPhone" placeholder="03xx-xxxxxxx" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none">
+                </div>
+
+                <div class="pt-2">
+                    <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Required Verification Documents</h3>
+                    <div class="space-y-2 text-xs text-slate-300">
+                        <label class="flex items-center gap-2"><input type="checkbox" checked class="rounded accent-blue-500"> Copy of CNIC</label>
+                        <label class="flex items-center gap-2"><input type="checkbox" checked class="rounded accent-blue-500"> 4 Passport Size Photographs</label>
+                        <label class="flex items-center gap-2"><input type="checkbox" checked class="rounded accent-blue-500"> 2 Valid Guarantors & CNIC Copies</label>
+                        <label class="flex items-center gap-2"><input type="checkbox" checked class="rounded accent-blue-500"> Utility Bill Copy</label>
+                        <label class="flex items-center gap-2"><input type="checkbox" checked class="rounded accent-blue-500"> Bank Statement / Payslip with Net Salary</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:col-span-8 space-y-6">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 shadow print-card">
+                    <p class="text-xs text-slate-400 font-medium">Financed Amount</p>
+                    <p id="kpiRemaining" class="text-lg sm:text-xl font-bold text-white mt-1">Rs 0</p>
+                </div>
+                <div class="bg-slate-800 p-4 rounded-xl border border-blue-900/50 shadow print-card">
+                    <p class="text-xs text-blue-400 font-medium">Installment / Period</p>
+                    <p id="kpiInstallment" class="text-lg sm:text-xl font-bold text-blue-400 mt-1">Rs 0</p>
+                </div>
+                <div class="bg-slate-800 p-4 rounded-xl border border-amber-900/50 shadow print-card">
+                    <p class="text-xs text-amber-400 font-medium">Total Markup</p>
+                    <p id="kpiMarkup" class="text-lg sm:text-xl font-bold text-amber-400 mt-1">Rs 0</p>
+                </div>
+                <div class="bg-slate-800 p-4 rounded-xl border border-emerald-900/50 shadow print-card">
+                    <p class="text-xs text-emerald-400 font-medium">Total Payments</p>
+                    <p id="kpiTotalPayment" class="text-lg sm:text-xl font-bold text-emerald-400 mt-1">Rs 0</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 no-print">
+                <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 flex flex-col items-center">
+                    <h3 class="text-sm font-semibold text-slate-300 mb-2">Payment Breakdown</h3>
+                    <div class="w-48 h-48">
+                        <canvas id="breakdownChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 flex flex-col justify-center">
+                    <h3 class="text-sm font-semibold text-slate-300 mb-2">Principal Decline Trajectory</h3>
+                    <div class="w-full h-48">
+                        <canvas id="trajectoryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-800 rounded-xl border border-slate-700 shadow-xl overflow-hidden print-card">
+                <div class="p-4 bg-slate-800 border-b border-slate-700 flex justify-between items-center">
+                    <div>
+                        <h2 class="text-lg font-bold text-white">Payment Amortization Schedule</h2>
+                        <p id="scheduleSummaryText" class="text-xs text-slate-400">5-year schedule • Monthly installments</p>
+                    </div>
+                    <span id="kpiNumPayments" class="bg-blue-900/60 text-blue-300 text-xs px-3 py-1 rounded-full font-semibold">60 Payments</span>
+                </div>
+
+                <div class="overflow-x-auto max-h-[500px]">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-900 text-slate-400 sticky top-0 text-xs uppercase tracking-wider">
+                            <tr>
+                                <th class="py-3 px-4">#</th>
+                                <th class="py-3 px-4">Due Date</th>
+                                <th class="py-3 px-4 text-right">Payment Due</th>
+                                <th class="py-3 px-4 text-right">Markup</th>
+                                <th class="py-3 px-4 text-right">Principal</th>
+                                <th class="py-3 px-4 text-right">Remaining Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scheduleBody" class="divide-y divide-slate-700/50 text-slate-200">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
