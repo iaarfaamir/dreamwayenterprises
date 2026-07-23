@@ -11,6 +11,34 @@
             .no-print { display: none !important; }
             body { background: #ffffff !important; color: #000000 !important; }
             .print-card { border: 1px solid #ccc !important; box-shadow: none !important; }
+
+            /* ALLOW TABLE TO EXPAND ACROSS MULTIPLE PAGES */
+            .overflow-x-auto, .max-h-\[500px\] {
+                max-height: none !important;
+                overflow: visible !important;
+            }
+
+            /* KEEP TABLE HEADERS AT TOP OF EACH PAGE & AVOID CUT-OFF ROWS */
+            table {
+                width: 100% !important;
+                page-break-inside: auto;
+                -webkit-print-color-adjust: exact;
+            }
+            thead {
+                display: table-header-group;
+            }
+            tbody {
+                display: table-row-group;
+            }
+            tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+                break-inside: avoid;
+            }
+            th, td {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
         }
     </style>
 </head>
