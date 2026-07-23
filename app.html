@@ -9,8 +9,16 @@
     <style>
         @media print {
             .no-print { display: none !important; }
-            body { background: #ffffff !important; color: #000000 !important; }
-            .print-card { border: 1px solid #ccc !important; box-shadow: none !important; }
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .print-card {
+                border: 1px solid #ddd !important;
+                box-shadow: none !important;
+            }
 
             /* ALLOW TABLE TO EXPAND ACROSS MULTIPLE PAGES */
             .overflow-x-auto, .max-h-\[500px\] {
@@ -18,26 +26,32 @@
                 overflow: visible !important;
             }
 
-            /* KEEP TABLE HEADERS AT TOP OF EACH PAGE & AVOID CUT-OFF ROWS */
+            /* COMPACT TABLE CELL PADDING FOR PRINT TO FIT EXACTLY 12 MONTHS PER PAGE */
             table {
                 width: 100% !important;
                 page-break-inside: auto;
-                -webkit-print-color-adjust: exact;
             }
-            thead {
-                display: table-header-group;
+            th {
+                padding-top: 6px !important;
+                padding-bottom: 6px !important;
+                font-size: 11px !important;
             }
-            tbody {
-                display: table-row-group;
+            td {
+                padding-top: 5px !important;
+                padding-bottom: 5px !important;
+                font-size: 11px !important;
             }
             tr {
                 page-break-inside: avoid;
                 page-break-after: auto;
-                break-inside: avoid;
             }
-            th, td {
-                page-break-inside: avoid;
-                break-inside: avoid;
+            thead {
+                display: table-header-group;
+            }
+
+            /* SET A CLEAN 12-ROW PAGE BREAK (5 PAGES TOTAL FOR 60 MONTHS) */
+            tbody tr:nth-child(12n) {
+                page-break-after: always;
             }
         }
     </style>
