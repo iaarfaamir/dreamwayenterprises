@@ -26,6 +26,21 @@ function formatCurrency(val) {
 }
 
 function calculateLoan() {
+    // Require user-provided values for these fields before calculating
+    if (!totalAmountEl.value || !advanceRateEl.value || !loanYearsEl.value) {
+        advanceAmountDisplay.value = '';
+        kpiRemaining.textContent = 'Rs 0';
+        kpiInstallment.textContent = 'Rs 0';
+        kpiMarkup.textContent = 'Rs 0';
+        kpiTotalPayment.textContent = 'Rs 0';
+        kpiNumPayments.textContent = '';
+        scheduleSummaryText.textContent = '';
+        scheduleBody.innerHTML = '';
+        if (breakdownChart) { breakdownChart.destroy(); breakdownChart = null; }
+        if (trajectoryChart) { trajectoryChart.destroy(); trajectoryChart = null; }
+        return;
+    }
+
     const total = parseFloat(totalAmountEl.value) || 0;
     const advPercent = (parseFloat(advanceRateEl.value) || 0) / 100;
     const advance = total * advPercent;
@@ -153,8 +168,6 @@ function init() {
     [totalAmountEl, advanceRateEl, markupRateEl, loanYearsEl, frequencyEl, firstPaymentDateEl].forEach(input => {
         input.addEventListener('input', calculateLoan);
     });
-
-    calculateLoan();
 }
 
 document.addEventListener('DOMContentLoaded', init);
