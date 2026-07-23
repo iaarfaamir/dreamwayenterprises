@@ -168,6 +168,14 @@ function init() {
     [totalAmountEl, advanceRateEl, markupRateEl, loanYearsEl, frequencyEl, firstPaymentDateEl].forEach(input => {
         input.addEventListener('input', calculateLoan);
     });
+    // Enforce loan years bounds (1-7)
+    loanYearsEl.addEventListener('input', () => {
+        if (!loanYearsEl.value) return;
+        let v = parseInt(loanYearsEl.value, 10);
+        if (isNaN(v)) return;
+        if (v > 7) loanYearsEl.value = 7;
+        if (v < 1) loanYearsEl.value = 1;
+    });
 }
 
 document.addEventListener('DOMContentLoaded', init);
