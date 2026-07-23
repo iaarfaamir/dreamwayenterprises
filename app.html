@@ -218,30 +218,6 @@
         </div>
     </main>
 
-    <script>
-// PUT THIS AT THE VERY TOP OF YOUR SCRIPT TAG
-(function() {
-    const ADMIN_PASSWORD = "DWE@1234"; // Admin Password
-    
-    // Hide the main content instantly before the user sees it
-    document.body.style.display = "none";
-
-    let enteredPassword = prompt("Enter Admin Password to access Dreamway Enterprises System:");
-    
-    while (enteredPassword !== ADMIN_PASSWORD) {
-        if (enteredPassword === null) {
-            // User clicked cancel
-            alert("Access denied.");
-            window.location.href = "about:blank"; // Redirects to a blank page
-            return;
-        }
-        enteredPassword = prompt("Incorrect password. Please try again:");
-    }
-    
-    // If correct, show the application
-    document.body.style.display = "block";
-})();
-    </script>
     <script src="app.js"></script>
 </body>
 </html>
